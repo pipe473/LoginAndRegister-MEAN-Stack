@@ -20,7 +20,11 @@ router.post('/signin', async (req, res) =>{
 
     const { email, password } = req.body;
     const user = await User.findOne({email})
-    if(!user) return res.status(401).send("El email introducido no existe...")
+    if(!user) return res.status(401).send("El email introducido no existe!");
+    if(user.password !== password) return res.status(401).send('Contraseña fallida!');
+
+    const token = jwt.sign({_id: user._id}, 'secretKey');
+    return res.status(200).json({token});
 });
 
 module.exports = router;
