@@ -5,7 +5,7 @@ const app = express();
 require('./db');
 
 //Importando las rutas
-app.use(require('./routes/index'));
+app.use('/api', require('./routes/index'));
 
 
 // Puerto Servidor
