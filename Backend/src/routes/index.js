@@ -27,4 +27,27 @@ router.post('/signin', async (req, res) =>{
     return res.status(200).json({token});
 });
 
+router.get('/tasks', (req, res) =>{
+    res.json([
+        {
+            _id: 1,
+            name: 'Task one',
+            description: 'Lorem ipsum',
+            date: "2020-12-03T13:41:23.839Z"
+        },
+        {
+            _id: 2,
+            name: 'Task two',
+            description: 'Lorem ipsum',
+            date: "2020-12-03T13:41:23.839Z"
+        },
+        {
+            _id: 3,
+            name: 'Task three',
+            description: 'Lorem ipsum',
+            date: "2020-12-03T13:41:23.839Z"
+        }        
+    ])
+})
+
 module.exports = router;
