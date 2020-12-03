@@ -16,7 +16,7 @@ router.post('/signup', async (req, res) => {
     res.status(200).json({token})
 });
 
-router.post('/signin', async (req, res) =>{
+router.post('/signin', async (req, res) => {
 
     const { email, password } = req.body;
     const user = await User.findOne({email})
@@ -27,7 +27,7 @@ router.post('/signin', async (req, res) =>{
     return res.status(200).json({token});
 });
 
-router.get('/tasks', (req, res) =>{
+router.get('/tasks', (req, res) => {
     res.json([
         {
             _id: 1,
@@ -71,6 +71,10 @@ router.get('/private-tasks', verifyToken, (req, res) => {
             date: "2020-12-03T13:41:23.839Z"
         }        
     ])
+});
+
+router.get('/profile', verifyToken, (req, res) => {
+    res.send(req.userId);
 })
 
 module.exports = router;
@@ -78,14 +82,15 @@ module.exports = router;
 function verifyToken(req, res, next) {
     // console.log(req.headers.authorization);  
     if (!req.headers.authorization) {
-        return res.status(401).send('Unauthorize Request!');        
+        return res.status(401).send('Unauthorized Request!');        
     }  
     
     const token = req.headers.authorization.split(' ')[1]
     if (token === 'null') {
-        return res.status(401).send('Unauthorize Request');
+        return res.status(401).send('Unauthorized Request');
     }
 
     const payload = jwt.verify(token, 'secretKey')
-    console.log(payload);    
+    req.userId = payload._id;
+    next();
 }
