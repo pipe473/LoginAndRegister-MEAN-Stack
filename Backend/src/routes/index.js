@@ -6,7 +6,9 @@ const User = require('../models/User');
 router.get('/', (req, res) => res.send('Testing...'))
 
 router.post('/signup', (req, res) => {
-    res.send('Register');
+    const { email, password } = req.body;
+    console.log(email, password);      
+    res.send('Testing SignUp');
 })
 
 module.exports = router;
