@@ -5,9 +5,10 @@ const User = require('../models/User');
 
 router.get('/', (req, res) => res.send('Testing...'))
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);      
+    const newUser = new User({ email, password });
+    await newUser.save();   
     res.send('Testing SignUp');
 })
 
