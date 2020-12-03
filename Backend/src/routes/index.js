@@ -48,6 +48,44 @@ router.get('/tasks', (req, res) =>{
             date: "2020-12-03T13:41:23.839Z"
         }        
     ])
+});
+
+router.get('/private-tasks', verifyToken, (req, res) => {
+    res.json([
+        {
+            _id: 1,
+            name: 'Task one',
+            description: 'Lorem ipsum',
+            date: "2020-12-03T13:41:23.839Z"
+        },
+        {
+            _id: 2,
+            name: 'Task two',
+            description: 'Lorem ipsum',
+            date: "2020-12-03T13:41:23.839Z"
+        },
+        {
+            _id: 3,
+            name: 'Task three',
+            description: 'Lorem ipsum',
+            date: "2020-12-03T13:41:23.839Z"
+        }        
+    ])
 })
 
 module.exports = router;
+
+function verifyToken(req, res, next) {
+    // console.log(req.headers.authorization);  
+    if (!req.headers.authorization) {
+        return res.status(401).send('Unauthorize Request!');        
+    }  
+    
+    const token = req.headers.authorization.split(' ')[1]
+    if (token === 'null') {
+        return res.status(401).send('Unauthorize Request');
+    }
+
+    const payload = jwt.verify(token, 'secretKey')
+    console.log(payload);    
+}
