@@ -2,7 +2,6 @@ const { Router } = require("express");
 const router = Router();
 
 const User = require("../models/User");
-
 const jwt = require("jsonwebtoken");
 
 router.get("/", (req, res) => res.send("Testing..."));
@@ -21,7 +20,7 @@ router.post("/signin", async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) return res.status(401).send("El email introducido no existe!");
   if (user.password !== password)
-    return res.status(401).send("Contraseña fallida!");
+    return res.status(401).send("Contraseña errónea!");
 
   const token = jwt.sign({ _id: user._id }, "secretKey");
   return res.status(200).json({ token });
